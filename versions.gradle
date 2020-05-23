@@ -14,7 +14,7 @@ versions.junit_core             = "4.12"
 versions.junit_ext              = "1.1.1"
 versions.recycler_view          = "1.1.0"
 versions.retrofit               = ""
-versions.timber                 = ""
+versions.timber                 = "4.7.1"
 
 def dependencies = [:]
 def android = [:]
@@ -37,6 +37,10 @@ def kotlin = [:]
 kotlin.plugin                   = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
 kotlin.sdklib                   = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$versions.kotlin"
 dependencies.kotlin = kotlin
+
+def log = [:]
+log.timber                      = "com.jakewharton.timber:timber:$versions.timber"
+dependencies.log = log
 
 def test = [:]
 test.espresso                   = "androidx.test.espresso:espresso-core:$versions.espresso"

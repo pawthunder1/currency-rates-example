@@ -5,6 +5,7 @@ import com.pawthunder.currencyexample.di.AppInjector
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import timber.log.Timber
 import javax.inject.Inject
 
 class CurrencyApp : Application(), HasAndroidInjector {
@@ -14,6 +15,9 @@ class CurrencyApp : Application(), HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG)
+            Timber.plant(Timber.DebugTree())
 
         AppInjector.init(this)
     }
