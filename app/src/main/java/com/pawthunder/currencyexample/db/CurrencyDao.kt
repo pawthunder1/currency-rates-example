@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 
+/**
+ * Dao for interaction with currency table
+ */
 @Dao
 interface CurrencyDao : DatabaseOperationDao<Currency> {
 

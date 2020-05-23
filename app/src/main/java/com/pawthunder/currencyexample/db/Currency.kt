@@ -5,6 +5,13 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Object containing essential data about currency.
+ * @constructor Constructor of currency object saved in database.
+ * @property id Unique identifier for every currency.
+ * @property name Name of currency.
+ * @property rating Current rate of currency to base currency.
+ */
 @Entity
 data class Currency(
     @PrimaryKey(autoGenerate = true) var id: Long,
@@ -12,6 +19,12 @@ data class Currency(
     var rating: Double
 ) : Parcelable {
 
+    /**
+     * Currency can be converted into parcel and send between activities
+     * @constructor Constructor creating currency from [Parcel]
+     * @param parcel [Parcel] containing data for creation of [Currency]
+     * @see Parcelable
+     */
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",

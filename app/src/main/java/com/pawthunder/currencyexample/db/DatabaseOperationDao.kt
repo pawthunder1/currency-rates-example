@@ -2,6 +2,9 @@ package com.pawthunder.currencyexample.db
 
 import androidx.room.*
 
+/**
+ * Dao containing CRUD operations with table
+ */
 @Dao
 interface DatabaseOperationDao<T> {
 
