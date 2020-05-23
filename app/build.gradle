@@ -42,8 +42,9 @@ dependencies {
     kapt deps.dagger.android_support_compiler
     kapt deps.dagger.compiler
 
-    // logs
+    // logs and leaks
     implementation deps.log.timber
+    debugImplementation deps.log.leak_canary
 
     // test libraries
     testImplementation deps.test.junit_core
