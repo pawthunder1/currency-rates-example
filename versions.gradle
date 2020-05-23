@@ -14,7 +14,7 @@ versions.junit_core             = "4.12"
 versions.junit_ext              = "1.1.1"
 versions.leak_canary            = "2.3"
 versions.recycler_view          = "1.1.0"
-versions.retrofit               = ""
+versions.retrofit               = "2.9.0"
 versions.timber                 = "4.7.1"
 
 def dependencies = [:]
@@ -43,6 +43,10 @@ def log = [:]
 log.timber                      = "com.jakewharton.timber:timber:$versions.timber"
 log.leak_canary                 = "com.squareup.leakcanary:leakcanary-android:$versions.leak_canary"
 dependencies.log = log
+
+def retrofit = [:]
+retrofit.core                   = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+dependencies.retrofit = retrofit
 
 def test = [:]
 test.espresso                   = "androidx.test.espresso:espresso-core:$versions.espresso"

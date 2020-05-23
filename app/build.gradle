@@ -46,6 +46,9 @@ dependencies {
     implementation deps.log.timber
     debugImplementation deps.log.leak_canary
 
+    //network
+    implementation deps.retrofit.core
+
     // test libraries
     testImplementation deps.test.junit_core
     androidTestImplementation deps.test.junit_ext

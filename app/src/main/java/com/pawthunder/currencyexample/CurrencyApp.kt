@@ -23,4 +23,8 @@ class CurrencyApp : Application(), HasAndroidInjector {
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
+
+    companion object {
+        internal const val BASE_API_URL = "https://hiring.revolut.codes/api/android/"
+    }
 }
