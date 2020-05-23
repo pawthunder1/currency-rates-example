@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import com.pawthunder.currencyexample.CurrencyApp
+import com.pawthunder.currencyexample.RevolutApp
 import dagger.android.AndroidInjection
 import dagger.android.HasAndroidInjector
 import dagger.android.support.AndroidSupportInjection
@@ -23,7 +23,7 @@ object AppInjector {
      * @see AndroidInjection.inject
      * @see AndroidSupportInjection.inject
      */
-    fun init(application: CurrencyApp) {
+    fun init(application: RevolutApp) {
         DaggerAppComponent.builder().application(application).build().inject(application)
 
         application.registerActivityLifecycleCallbacks(object :

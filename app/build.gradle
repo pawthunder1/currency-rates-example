@@ -39,15 +39,20 @@ dependencies {
     implementation deps.dagger.runtime
     implementation deps.dagger.android
     implementation deps.dagger.android_support
-    kapt deps.dagger.android_support_compiler
+    kapt deps.dagger.android_processor
     kapt deps.dagger.compiler
 
     // logs and leaks
     implementation deps.log.timber
     debugImplementation deps.log.leak_canary
 
-    //network
+    // network
     implementation deps.retrofit.core
+
+    // room
+    implementation deps.room.runtime
+    implementation deps.room.ktx
+    kapt deps.room.compiler
 
     // test libraries
     testImplementation deps.test.junit_core

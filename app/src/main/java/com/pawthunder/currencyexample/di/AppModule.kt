@@ -1,7 +1,11 @@
 package com.pawthunder.currencyexample.di
 
-import com.pawthunder.currencyexample.CurrencyApp
-import com.pawthunder.currencyexample.api.CurrencyService
+import android.app.Application
+import androidx.room.Room
+import com.pawthunder.currencyexample.RevolutApp
+import com.pawthunder.currencyexample.api.RevolutService
+import com.pawthunder.currencyexample.db.CurrencyDao
+import com.pawthunder.currencyexample.db.RevolutDatabase
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -12,10 +16,22 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideCurrencyService(): CurrencyService =
+    fun provideRevolutService(): RevolutService =
         Retrofit.Builder()
-            .baseUrl(CurrencyApp.BASE_API_URL)
+            .baseUrl(RevolutApp.BASE_API_URL)
             .build()
-            .create(CurrencyService::class.java)
+            .create(RevolutService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRevolutDatabase(app: Application): RevolutDatabase =
+        Room.databaseBuilder(app, RevolutDatabase::class.java, RevolutApp.DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
+
+    @Singleton
+    @Provides
+    fun provideCurrencyDao(database: RevolutDatabase): CurrencyDao =
+        database.getCurrencyDao()
 
 }

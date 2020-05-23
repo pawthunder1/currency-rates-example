@@ -1,7 +1,7 @@
 package com.pawthunder.currencyexample.di
 
 import android.app.Application
-import com.pawthunder.currencyexample.CurrencyApp
+import com.pawthunder.currencyexample.RevolutApp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -25,5 +25,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 
-    fun inject(githubApp: CurrencyApp)
+    fun inject(githubApp: RevolutApp)
 }
