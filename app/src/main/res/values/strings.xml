@@ -3,4 +3,36 @@
 
     <!--Rates-->
     <string name="rates">Rates</string>
+    <string name="australian_dollar">Australian dollar</string>
+    <string name="bulgarian_lev">Bulgarian lev</string>
+    <string name="brazilian_real">Brazilian real</string>
+    <string name="canadian_dollar">Canadian dollar</string>
+    <string name="swiss_franc">Swiss franc</string>
+    <string name="chinese_yuan">Chinese yuan</string>
+    <string name="czech_koruna">Czech koruna</string>
+    <string name="danish_krone">Danish krone</string>
+    <string name="euro">Euro</string>
+    <string name="pound_sterling">Pound sterling</string>
+    <string name="hong_kong_dollar">Hong Kong dollar</string>
+    <string name="croatian_kuna">Croatian kuna</string>
+    <string name="hungarian_forint">Hungarian forint</string>
+    <string name="indonesian_rupiah">Indonesian rupiah</string>
+    <string name="israeli_shekel">Israeli shekel</string>
+    <string name="indian_rupee">Indian rupee</string>
+    <string name="icelandic_krona">Icelandic krona</string>
+    <string name="japanese_yen">Japanese yen</string>
+    <string name="south_korean_won">South Korean won</string>
+    <string name="mexican_peso">Mexican peso</string>
+    <string name="malaysian_ringgit">Malaysian ringgit</string>
+    <string name="norwegian_krone">Norwegian krone</string>
+    <string name="new_zealand_dollar">New Zealand dollar</string>
+    <string name="philippine_peso">Philippine peso</string>
+    <string name="polish_zloty">Polish zloty</string>
+    <string name="romanian_leu">Romanian leu</string>
+    <string name="russian_rouble">Russian rouble</string>
+    <string name="swedish_krona">Swedish krona</string>
+    <string name="singapore_dollar">Singapore dollar</string>
+    <string name="thai_baht">Thai baht</string>
+    <string name="us_dollar">US dollar</string>
+    <string name="south_african_rand">South African rand</string>
 </resources>
