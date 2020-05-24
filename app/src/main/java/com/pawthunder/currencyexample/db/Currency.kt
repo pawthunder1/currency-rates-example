@@ -2,14 +2,9 @@ package com.pawthunder.currencyexample.db
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.pawthunder.currencyexample.R
-import com.pawthunder.currencyexample.ui.CurrencyShortName
-import timber.log.Timber
-import java.lang.IllegalArgumentException
+import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 
 /**
  * Object containing essential data about currency.
@@ -38,6 +33,7 @@ data class Currency(
         parcel.readLong(),
         parcel.readString() ?: "",
         parcel.readSerializable() as CurrencyShortName,
+        parcel.readDouble(),
         parcel.readDouble()
     )
 
@@ -47,6 +43,7 @@ data class Currency(
             writeString(name)
             writeSerializable(shortName)
             writeDouble(rating)
+            writeDouble(value)
         }
     }
 

@@ -3,9 +3,8 @@ package com.pawthunder.currencyexample.util
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.pawthunder.currencyexample.R
-import com.pawthunder.currencyexample.ui.CurrencyShortName
+import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 
 object ResourceConverters {
 
@@ -80,7 +79,7 @@ object ResourceConverters {
             CurrencyShortName.HUF -> R.string.hungarian_forint
             CurrencyShortName.IDR -> R.string.indonesian_rupiah
             CurrencyShortName.ILS -> R.string.israeli_shekel
-            CurrencyShortName.INR -> R.string.indonesian_rupiah
+            CurrencyShortName.INR -> R.string.indian_rupee
             CurrencyShortName.ISK -> R.string.icelandic_krona
             CurrencyShortName.JPY -> R.string.japanese_yen
             CurrencyShortName.KRW -> R.string.south_korean_won

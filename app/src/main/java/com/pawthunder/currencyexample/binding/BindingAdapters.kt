@@ -3,7 +3,7 @@ package com.pawthunder.currencyexample.binding
 import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.pawthunder.currencyexample.ui.CurrencyShortName
+import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import com.pawthunder.currencyexample.util.ResourceConverters
 
 object BindingAdapters {

@@ -1,4 +1,4 @@
-package com.pawthunder.currencyexample.ui
+package com.pawthunder.currencyexample.ui.rates
 
 enum class CurrencyShortName(val key: String) {
     AUD("AUD"),

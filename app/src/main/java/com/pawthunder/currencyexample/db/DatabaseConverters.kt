@@ -1,7 +1,7 @@
 package com.pawthunder.currencyexample.db
 
 import androidx.room.TypeConverter
-import com.pawthunder.currencyexample.ui.CurrencyShortName
+import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 
 object DatabaseConverters {
 

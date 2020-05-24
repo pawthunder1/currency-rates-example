@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="grid_space_small">8dp</dimen>
     <dimen name="grid_space_normal">16dp</dimen>
 
     <dimen name="icon_large">40dp</dimen>
