@@ -26,4 +26,8 @@
         <item name="android:textSize">@dimen/text_body_small</item>
     </style>
 
+    <style name="TitlePrimary" paretn="TextPrimary">
+        <item name="android:textSize">@dimen/title_header_small</item>
+    </style>
+
 </resources>
