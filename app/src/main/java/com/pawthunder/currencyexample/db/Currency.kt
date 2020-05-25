@@ -4,19 +4,23 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 
 /**
  * Object containing essential data about currency.
  * @constructor Constructor of currency object saved in database.
  * @property id Unique identifier for every currency.
  * @property name Name of currency.
+ * @property shortName Short name of currency.
  * @property rating Current rate of currency to base currency.
  */
 @Entity
 data class Currency(
     @PrimaryKey(autoGenerate = true) var id: Long,
     var name: String,
-    var rating: Double
+    var shortName: CurrencyShortName,
+    var rating: Double = 1.0,
+    var value: Double = 1.0
 ) : Parcelable {
 
     /**
@@ -28,6 +32,8 @@ data class Currency(
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
+        parcel.readSerializable() as CurrencyShortName,
+        parcel.readDouble(),
         parcel.readDouble()
     )
 
@@ -35,7 +41,9 @@ data class Currency(
         dest?.apply {
             writeLong(id)
             writeString(name)
+            writeSerializable(shortName)
             writeDouble(rating)
+            writeDouble(value)
         }
     }
 

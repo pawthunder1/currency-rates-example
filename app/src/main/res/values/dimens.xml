@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_space_normal">16dp</dimen>
+
+    <dimen name="icon_large">40dp</dimen>
+
+    <dimen name="text_body">16sp</dimen>
+    <dimen name="text_body_small">14sp</dimen>
+    <dimen name="title_header_small">20sp</dimen>
+</resources>
