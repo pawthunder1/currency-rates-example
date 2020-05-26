@@ -29,6 +29,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
+
     dataBinding {
         enabled = true
     }
@@ -42,6 +46,7 @@ dependencies {
     implementation deps.android.core
     implementation deps.android.constraint_layout
     implementation deps.android.recycler_view
+    implementation deps.android.fragment
 
     // design
     implementation deps.design.material_components
@@ -59,6 +64,7 @@ dependencies {
 
     // network
     implementation deps.retrofit.core
+    implementation deps.retrofit.gson_converter
 
     // room
     implementation deps.room.runtime

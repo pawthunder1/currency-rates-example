@@ -32,11 +32,12 @@ enum class CurrencyShortName(val key: String) {
     SGD("SGD"),
     THB("THB"),
     USD("USD"),
-    ZAR("ZAR");
+    ZAR("ZAR"),
+    UNKNOWN("");
 
     companion object {
         private val map = values().associateBy(CurrencyShortName::key)
 
-        fun find(key: String?) = map[key] ?: EUR
+        fun find(key: String?) = map[key] ?: UNKNOWN
     }
 }

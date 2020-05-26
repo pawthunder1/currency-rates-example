@@ -9,6 +9,7 @@ import com.pawthunder.currencyexample.db.RevolutDatabase
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
@@ -19,6 +20,7 @@ class AppModule {
     fun provideRevolutService(): RevolutService =
         Retrofit.Builder()
             .baseUrl(RevolutApp.BASE_API_URL)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RevolutService::class.java)
 

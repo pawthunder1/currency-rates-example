@@ -4,5 +4,4 @@ import dagger.Module
 
 @Suppress("unused")
 @Module
-abstract class FragmentsModule {
-}
+abstract class FragmentsModule

@@ -10,13 +10,13 @@ import com.pawthunder.currencyexample.db.Currency
 import com.pawthunder.currencyexample.ui.common.DataBoundListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
 
-class RatesRecyclerView(
+class RatesAdapter(
     appExecutors: AppExecutors
 ) : DataBoundListAdapter<Currency, ItemRateBinding>(
     appExecutors,
     object : DiffUtil.ItemCallback<Currency>() {
         override fun areItemsTheSame(oldItem: Currency, newItem: Currency) =
-            oldItem.id == newItem.id
+            oldItem.shortName == newItem.shortName
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
             oldItem == newItem
