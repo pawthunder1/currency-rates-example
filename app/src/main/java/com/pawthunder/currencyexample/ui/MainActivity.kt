@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.MaterialToolbar
 import com.pawthunder.currencyexample.R
-import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import com.pawthunder.currencyexample.ui.rates.RatesAdapter
 import com.pawthunder.currencyexample.ui.rates.RatesViewModel
 import com.pawthunder.currencyexample.util.AppExecutors
@@ -47,7 +46,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector {
             }
         })
 
-        ratesViewModel.requestRates(CurrencyShortName.EUR)
+        ratesViewModel.shouldRequest.observe(this, Observer { value ->
+            if (value) {
+                ratesViewModel.requestRates()
+            }
+        })
+
+        ratesViewModel.shouldRequest.value = true
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector
