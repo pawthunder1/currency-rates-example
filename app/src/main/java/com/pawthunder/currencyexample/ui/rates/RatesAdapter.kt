@@ -2,6 +2,7 @@ package com.pawthunder.currencyexample.ui.rates
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
@@ -12,9 +13,13 @@ import com.pawthunder.currencyexample.db.Currency
 import com.pawthunder.currencyexample.ui.common.DataBoundHolder
 import com.pawthunder.currencyexample.ui.common.DataBoundListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
+import timber.log.Timber
 
 class RatesAdapter(
+    //private val lifecycleOwner: LifecycleOwner,
+    private val rateClickListener: RateClickListener,
     appExecutors: AppExecutors
+
 ) : DataBoundListAdapter<Currency, ItemRateBinding>(
     appExecutors,
     object : DiffUtil.ItemCallback<Currency>() {
@@ -24,17 +29,22 @@ class RatesAdapter(
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
             oldItem == newItem
     }
-) {
+), View.OnFocusChangeListener {
+
     override fun createBinding(parent: ViewGroup): ItemRateBinding =
-        DataBindingUtil.inflate(
+        DataBindingUtil.inflate<ItemRateBinding>(
             LayoutInflater.from(parent.context),
             R.layout.item_rate,
             parent,
             false
-        )
+        ).apply {
+            //lifecycleOwner = this@RatesAdapter.lifecycleOwner
+            rateValue.onFocusChangeListener = this@RatesAdapter
+        }
 
     override fun bind(binding: ItemRateBinding, item: Currency, position: Int) {
         binding.item = item
+        Timber.i("postmessage -> bind new item ${item.shortName.key} and ${item.rating}")
     }
 
     override fun onViewDetachedFromWindow(holder: DataBoundHolder<ItemRateBinding>) {
@@ -44,6 +54,13 @@ class RatesAdapter(
             val inputManager =
                 (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+    }
+
+    override fun onFocusChange(view: View?, hasFocus: Boolean) {
+        val currency = view?.tag
+        if (hasFocus && currency is Currency) {
+            rateClickListener.onInputFocused(view, currency)
         }
     }
 }

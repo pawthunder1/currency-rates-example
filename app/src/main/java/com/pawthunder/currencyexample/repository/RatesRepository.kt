@@ -22,13 +22,13 @@ class RatesRepository @Inject constructor(
     fun loadRates(
         baseCurrency: CurrencyShortName,
         result: MutableLiveData<List<Currency>>,
+        shouldPost: MutableLiveData<Boolean>,
         context: Context
     ) {
-        object : NetworkDataResource<RatesResponse, List<Currency>>(appExecutors) {
+        object : NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result, shouldPost) {
             override fun shouldRequest() = true
 
             override fun loadFromDatabase() = currencyDao.getItems()
-
 
             override fun requestFromNetwork() = revolutService.getLatestRates(baseCurrency.key)
 
@@ -55,7 +55,7 @@ class RatesRepository @Inject constructor(
             override fun onFailedRequest(throwable: Throwable) {
                 // TODO("Not yet implemented")
             }
-        }.loadData(result)
+        }.loadData()
     }
 
     private fun createCurrency(name: String, context: Context, rate: Double? = 1.0): Currency? {

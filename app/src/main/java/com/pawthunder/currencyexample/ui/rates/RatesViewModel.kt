@@ -17,11 +17,12 @@ class RatesViewModel @Inject constructor(
     val rates = MutableLiveData<List<Currency>>()
     val shouldRequest = MutableLiveData<Boolean>()
     val defaultCurrency = MutableLiveData(CurrencyShortName.EUR)
+    val convertValue = MutableLiveData(1.0)
 
     fun requestRates() {
         defaultCurrency.value?.let {
             Timber.i("Rates requested")
-            ratesRepository.loadRates(it, rates, app)
+            ratesRepository.loadRates(it, rates, shouldRequest, app)
         }
 
         Handler().postDelayed({
@@ -31,4 +32,32 @@ class RatesViewModel @Inject constructor(
         }, 1000)
     }
 
+    fun changeFirstItem(item: Currency) {
+        val list = rates.value
+        if (list?.size ?: 0 > 0 && list?.get(0) != item) {
+            shouldRequest.value = false
+            defaultCurrency.value = item.shortName
+            Timber.i("postmessage -> change first item")
+            rates.postValue(recalculateItems(list, item))
+        }
+    }
+
+    fun recalculateItems(list: List<Currency>?, newBase: Currency): List<Currency> {
+        if (list.isNullOrEmpty())
+            return ArrayList()
+
+        val result = ArrayList<Currency>()
+        val newBaseRatio = list[0].rating / newBase.rating
+
+        for (item in list) {
+            item.rating = item.rating * newBaseRatio
+            if (item.shortName == newBase.shortName) {
+                result.add(0, item)
+            } else {
+                result.add(item)
+            }
+        }
+
+        return result
+    }
 }

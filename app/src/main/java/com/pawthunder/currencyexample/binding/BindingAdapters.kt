@@ -18,13 +18,13 @@ object BindingAdapters {
 
     @JvmStatic
     @BindingAdapter("flagCurrency")
-    fun assignFlagFromName(imageView: ImageView, currency: CurrencyShortName) {
+    fun assignFlagFromName(imageView: ImageView, currency: CurrencyShortName?) {
         imageView.setImageResource(ResourceConverters.findCurrencyImageRes(currency))
     }
 
     @JvmStatic
     @BindingAdapter("showDouble")
-    fun showRoundedDouble(textView: TextView, value: Double) {
-        textView.text = String.format(Locale.getDefault(), "%.2f", value)
+    fun showRoundedDouble(textView: TextView, value: Double?) {
+        textView.text = String.format(Locale.US, "%.2f", value)
     }
 }

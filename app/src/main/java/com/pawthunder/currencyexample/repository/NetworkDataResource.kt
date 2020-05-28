@@ -7,17 +7,23 @@ import retrofit2.Callback
 import retrofit2.Response
 
 abstract class NetworkDataResource<RequestType, ResultType>(
-    private val appExecutors: AppExecutors
+    private val appExecutors: AppExecutors,
+    private val result: MutableLiveData<ResultType>,
+    private val shouldPostValue: MutableLiveData<Boolean>? = null
 ) {
 
-    fun loadData(result: MutableLiveData<ResultType>) {
+    fun loadData() {
         if (shouldRequest()) {
             appExecutors.networkIO().execute {
+                if (result.value == null) {
+                    loadDatabaseResult()
+                }
+
                 val request = requestFromNetwork()
                 request.enqueue(object : Callback<RequestType> {
                     override fun onFailure(call: Call<RequestType>, throwable: Throwable) {
                         onFailedRequest(throwable)
-                        loadDatabaseResult(result)
+                        loadDatabaseResult()
                     }
 
                     override fun onResponse(
@@ -32,21 +38,25 @@ abstract class NetworkDataResource<RequestType, ResultType>(
                         }
 
                         appExecutors.diskIO().execute {
-                            result.postValue(saveCallResult(body))
+                            postValue(saveCallResult(body))
                         }
                     }
                 })
-
             }
         } else {
-            loadDatabaseResult(result)
+            loadDatabaseResult()
         }
     }
 
-    private fun loadDatabaseResult(result: MutableLiveData<ResultType>) {
+    private fun loadDatabaseResult() {
         appExecutors.diskIO().execute {
-            result.postValue(loadFromDatabase())
+            postValue(loadFromDatabase())
         }
+    }
+
+    private fun postValue(value: ResultType) {
+        if (shouldPostValue?.value != false)
+            result.postValue(value)
     }
 
     abstract fun shouldRequest(): Boolean
