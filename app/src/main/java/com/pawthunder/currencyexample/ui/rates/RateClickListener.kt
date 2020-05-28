@@ -1,11 +1,11 @@
 package com.pawthunder.currencyexample.ui.rates
 
-import android.view.View
+import android.widget.EditText
 import com.pawthunder.currencyexample.db.Currency
 
 interface RateClickListener {
 
-    fun onInputFocused(view: View?, item: Currency)
+    fun onInputFocused(view: EditText, item: Currency)
 
     fun continueRequests()
 }

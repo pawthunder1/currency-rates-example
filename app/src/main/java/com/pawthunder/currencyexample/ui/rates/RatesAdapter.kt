@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
@@ -60,8 +61,9 @@ class RatesAdapter(
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         val currency = view?.tag
-        if (hasFocus && currency is Currency) {
+        if (hasFocus && currency is Currency && view is EditText) {
             rateClickListener.onInputFocused(view, currency)
+            view.setSelection(view.text.length)
         }
     }
 }

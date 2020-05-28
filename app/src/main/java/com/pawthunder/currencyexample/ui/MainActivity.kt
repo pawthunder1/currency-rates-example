@@ -2,12 +2,15 @@ package com.pawthunder.currencyexample.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.AbsListView
 import android.widget.EditText
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.adapters.AbsListViewBindingAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
 import com.pawthunder.currencyexample.R
 import com.pawthunder.currencyexample.db.Currency
@@ -35,6 +38,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
     private val ratesViewModel: RatesViewModel by viewModels {
         viewModelFactory
+    }
+
+    private val scrollStateListener = object: RecyclerView.OnScrollListener() {
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            ratesViewModel.shouldRequest.value = newState == RecyclerView.SCROLL_STATE_IDLE
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,15 +79,18 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         ratesViewModel.shouldRequest.value = true
     }
 
+    override fun onDestroy() {
+        rates_items.removeOnScrollListener(scrollStateListener)
+        super.onDestroy()
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         ratesViewModel.shouldRequest.value = false
     }
 
-    override fun onInputFocused(view: View?, item: Currency) {
-        if (view is EditText) {
-            ratesViewModel.changeFirstItem(item)
-        }
+    override fun onInputFocused(view: EditText, item: Currency) {
+        ratesViewModel.changeFirstItem(item)
     }
 
     override fun continueRequests() {
@@ -89,5 +102,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
     private fun initializeRecycler() {
         rates_items.layoutManager = LinearLayoutManager(this)
         rates_items.adapter = RatesAdapter(this, this, appExecutors)
+        rates_items.addOnScrollListener(scrollStateListener)
     }
 }
