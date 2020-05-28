@@ -2,9 +2,12 @@ package com.pawthunder.currencyexample.db
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
+import java.math.BigDecimal
 
 /**
  * Object containing essential data about currency.
@@ -18,9 +21,11 @@ import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 data class Currency(
     @PrimaryKey var shortName: CurrencyShortName,
     var name: String,
-    var rating: Double = 1.0,
-    var value: Double = 1.0
+    var rating: Double = 1.0
 ) : Parcelable {
+
+    @Ignore
+    val outValue = MutableLiveData<BigDecimal>()
 
     /**
      * Currency can be converted into parcel and send between activities
@@ -31,7 +36,6 @@ data class Currency(
     constructor(parcel: Parcel) : this(
         parcel.readSerializable() as CurrencyShortName,
         parcel.readString() ?: "",
-        parcel.readDouble(),
         parcel.readDouble()
     )
 
@@ -40,7 +44,6 @@ data class Currency(
             writeSerializable(shortName)
             writeString(name)
             writeDouble(rating)
-            writeDouble(value)
         }
     }
 

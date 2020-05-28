@@ -47,16 +47,17 @@ class RatesViewModel @Inject constructor(
             return ArrayList()
 
         val result = ArrayList<Currency>()
-        val newBaseRatio = list[0].rating / newBase.rating
+        val newBaseRatio = 1.0 / newBase.rating
 
         for (item in list) {
-            item.rating = item.rating * newBaseRatio
+            item.rating *= newBaseRatio
             if (item.shortName == newBase.shortName) {
                 result.add(0, item)
             } else {
                 result.add(item)
             }
         }
+        result[0].rating = 1.0
 
         return result
     }

@@ -3,6 +3,7 @@ package com.pawthunder.currencyexample.util
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.pawthunder.currencyexample.R
+import com.pawthunder.currencyexample.db.Currency
 import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import timber.log.Timber
 
@@ -50,7 +51,7 @@ object ResourceConverters {
             CurrencyShortName.ZAR -> R.drawable.south_africa_flag_round
             else -> {
                 // Ideally this send event to firebase about missing flag
-                Timber.e(IllegalArgumentException("Missing flag for currency ${currency?.key}"))
+                Timber.e(IllegalArgumentException("Missing flag for currency ${currency?.key ?: CurrencyShortName.UNKNOWN.key}"))
                 R.drawable.ic_no_flag
             }
         }
@@ -98,7 +99,7 @@ object ResourceConverters {
             CurrencyShortName.ZAR -> R.string.south_african_rand
             else -> {
                 // Ideally this send event to firebase about missing name
-                Timber.e(IllegalArgumentException("Missing name for currency ${currency?.key}"))
+                Timber.e(IllegalArgumentException("Missing name for currency ${currency?.key ?: CurrencyShortName.UNKNOWN.key}"))
                 -1
             }
         }

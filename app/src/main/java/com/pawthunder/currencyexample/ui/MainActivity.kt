@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
             Timber.i("postmessage -> set new items")
             val adapter = rates_items.adapter
 
-            /*for (item in items) {
-                item.outValue.postValue(item.rating * (ratesViewModel.convertValue.value ?: 1.0))
-            }*/
+            for (item in items) {
+                item.outValue.postValue((item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal())
+            }
 
             if (adapter is RatesAdapter) {
                 adapter.submitList(items)
@@ -69,6 +69,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         ratesViewModel.shouldRequest.value = true
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        ratesViewModel.shouldRequest.value = false
+    }
+
     override fun onInputFocused(view: View?, item: Currency) {
         if (view is EditText) {
             ratesViewModel.changeFirstItem(item)
@@ -83,6 +88,6 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
     private fun initializeRecycler() {
         rates_items.layoutManager = LinearLayoutManager(this)
-        rates_items.adapter = RatesAdapter(/*this,*/ this, appExecutors)
+        rates_items.adapter = RatesAdapter(this, this, appExecutors)
     }
 }

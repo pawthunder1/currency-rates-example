@@ -68,7 +68,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/rate_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rate_image"
-            app:showDouble="@{item.value * item.rating}"
+            app:showNumber="@{item.outValue}"
             tools:text="0.0"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

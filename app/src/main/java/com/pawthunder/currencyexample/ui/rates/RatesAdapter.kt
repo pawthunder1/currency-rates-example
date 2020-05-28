@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import com.pawthunder.currencyexample.R
 import com.pawthunder.currencyexample.databinding.ItemRateBinding
@@ -16,10 +17,9 @@ import com.pawthunder.currencyexample.util.AppExecutors
 import timber.log.Timber
 
 class RatesAdapter(
-    //private val lifecycleOwner: LifecycleOwner,
+    private val lifecycleOwner: LifecycleOwner,
     private val rateClickListener: RateClickListener,
     appExecutors: AppExecutors
-
 ) : DataBoundListAdapter<Currency, ItemRateBinding>(
     appExecutors,
     object : DiffUtil.ItemCallback<Currency>() {
@@ -38,7 +38,7 @@ class RatesAdapter(
             parent,
             false
         ).apply {
-            //lifecycleOwner = this@RatesAdapter.lifecycleOwner
+            lifecycleOwner = this@RatesAdapter.lifecycleOwner
             rateValue.onFocusChangeListener = this@RatesAdapter
         }
 
@@ -54,6 +54,7 @@ class RatesAdapter(
             val inputManager =
                 (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
+            rateClickListener.continueRequests()
         }
     }
 
