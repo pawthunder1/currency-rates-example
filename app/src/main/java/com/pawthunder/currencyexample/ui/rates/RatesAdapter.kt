@@ -15,7 +15,6 @@ import com.pawthunder.currencyexample.db.Currency
 import com.pawthunder.currencyexample.ui.common.DataBoundHolder
 import com.pawthunder.currencyexample.ui.common.DataBoundListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
-import timber.log.Timber
 
 class RatesAdapter(
     private val lifecycleOwner: LifecycleOwner,
@@ -41,11 +40,11 @@ class RatesAdapter(
         ).apply {
             lifecycleOwner = this@RatesAdapter.lifecycleOwner
             rateValue.onFocusChangeListener = this@RatesAdapter
+            rateValue.setOnEditorActionListener(rateClickListener)
         }
 
     override fun bind(binding: ItemRateBinding, item: Currency, position: Int) {
         binding.item = item
-        Timber.i("postmessage -> bind new item ${item.shortName.key} and ${item.rating}")
     }
 
     override fun onViewDetachedFromWindow(holder: DataBoundHolder<ItemRateBinding>) {
@@ -63,7 +62,7 @@ class RatesAdapter(
         val currency = view?.tag
         if (hasFocus && currency is Currency && view is EditText) {
             rateClickListener.onInputFocused(view, currency)
-            view.setSelection(view.text.length)
+            view.setSelection(0)
         }
     }
 }

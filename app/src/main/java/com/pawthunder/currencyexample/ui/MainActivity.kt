@@ -1,12 +1,12 @@
 package com.pawthunder.currencyexample.ui
 
 import android.os.Bundle
-import android.view.View
-import android.widget.AbsListView
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.adapters.AbsListViewBindingAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +22,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener {
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         viewModelFactory
     }
 
-    private val scrollStateListener = object: RecyclerView.OnScrollListener() {
+    private val scrollStateListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
             ratesViewModel.shouldRequest.value = newState == RecyclerView.SCROLL_STATE_IDLE
@@ -55,11 +54,12 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         initializeRecycler()
 
         ratesViewModel.rates.observe(this, Observer { items ->
-            Timber.i("postmessage -> set new items")
             val adapter = rates_items.adapter
 
+            // TODO try to remove livedata because change for output is sometimes delayed and data remains unchanged
             for (item in items) {
-                item.outValue.postValue((item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal())
+                val newValue = (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
+                item.outValue.value = newValue
             }
 
             if (adapter is RatesAdapter) {
@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
             if (value) {
                 ratesViewModel.requestRates()
             }
+        })
+
+        ratesViewModel.convertValue.observe(this, Observer {
+            ratesViewModel.reloadRates()
         })
     }
 
@@ -95,6 +99,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
     override fun continueRequests() {
         ratesViewModel.shouldRequest.value = true
+    }
+
+    override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            ratesViewModel.convertValue.value = (textView?.text?.toString() ?: "1.0").toDouble()
+        }
+        return false
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector

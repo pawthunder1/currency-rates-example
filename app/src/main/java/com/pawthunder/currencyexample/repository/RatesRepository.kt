@@ -10,7 +10,6 @@ import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import com.pawthunder.currencyexample.util.AppExecutors
 import com.pawthunder.currencyexample.util.ResourceConverters
 import timber.log.Timber
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class RatesRepository @Inject constructor(
@@ -19,13 +18,21 @@ class RatesRepository @Inject constructor(
     private val revolutService: RevolutService
 ) {
 
+    /**
+     * Create [NetworkDataResource] for loading rates.
+     * @param baseCurrency new base currency.
+     * @param result LiveData containing result.
+     * @param shouldPost LiveData indicating if result should be posted.
+     * @param context Context for working with resources.
+     */
     fun loadRates(
         baseCurrency: CurrencyShortName,
         result: MutableLiveData<List<Currency>>,
         shouldPost: MutableLiveData<Boolean>,
         context: Context
     ) {
-        object : NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result, shouldPost) {
+        object :
+            NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result, shouldPost) {
             override fun shouldRequest() = true
 
             override fun loadFromDatabase() = currencyDao.getItems()
@@ -63,7 +70,7 @@ class RatesRepository @Inject constructor(
 
         if (shortName == CurrencyShortName.UNKNOWN) {
             // This should send event to firebase
-            Timber.e(IllegalArgumentException("Currency with name '$name' was not found"))
+            Timber.e(IllegalArgumentException("Currency was not found"))
             return null
         }
 

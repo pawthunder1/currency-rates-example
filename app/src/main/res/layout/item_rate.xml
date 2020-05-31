@@ -58,18 +58,18 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="end"
+            android:hint="@string/rate"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:minEms="3"
             android:paddingTop="0dp"
             android:paddingBottom="0dp"
-            android:hint="@string/rate"
             android:tag="@{item}"
             app:layout_constraintBottom_toBottomOf="@+id/rate_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/rate_image"
             app:showNumber="@{item.outValue}"
-            tools:text="0.0"/>
+            tools:text="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
