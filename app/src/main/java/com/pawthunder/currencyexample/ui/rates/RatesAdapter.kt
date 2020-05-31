@@ -17,7 +17,6 @@ import com.pawthunder.currencyexample.ui.common.DataBoundListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
 
 class RatesAdapter(
-    private val lifecycleOwner: LifecycleOwner,
     private val rateClickListener: RateClickListener,
     appExecutors: AppExecutors
 ) : DataBoundListAdapter<Currency, ItemRateBinding>(
@@ -38,7 +37,6 @@ class RatesAdapter(
             parent,
             false
         ).apply {
-            lifecycleOwner = this@RatesAdapter.lifecycleOwner
             rateValue.onFocusChangeListener = this@RatesAdapter
             rateValue.setOnEditorActionListener(rateClickListener)
         }

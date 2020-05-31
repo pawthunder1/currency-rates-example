@@ -56,10 +56,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         ratesViewModel.rates.observe(this, Observer { items ->
             val adapter = rates_items.adapter
 
-            // TODO try to remove livedata because change for output is sometimes delayed and data remains unchanged
             for (item in items) {
                 val newValue = (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
-                item.outValue.value = newValue
+                item.outValue = newValue
             }
 
             if (adapter is RatesAdapter) {
@@ -112,7 +111,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
     private fun initializeRecycler() {
         rates_items.layoutManager = LinearLayoutManager(this)
-        rates_items.adapter = RatesAdapter(this, this, appExecutors)
+        rates_items.adapter = RatesAdapter(this, appExecutors)
         rates_items.addOnScrollListener(scrollStateListener)
     }
 }

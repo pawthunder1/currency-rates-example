@@ -53,15 +53,17 @@ class RatesViewModel @Inject constructor(
 
         val result = ArrayList<Currency>()
         val newBaseRatio = 1.0 / newBase.rating
-        Timber.i("timber out -> newBase is ${newBase.name} and ratio $newBaseRatio ")
 
         for (item in list) {
-            item.rating *= newBaseRatio
-            if (item.shortName == newBase.shortName) {
-                Timber.i("timber out -> newBase is ${item.name} and ratio ${item.rating} ")
-                result.add(0, item)
+            val currency = Currency(
+                item.shortName,
+                item.name,
+                item.rating * newBaseRatio
+            )
+            if (currency.shortName == newBase.shortName) {
+                result.add(0, currency)
             } else {
-                result.add(item)
+                result.add(currency)
             }
         }
         result[0].rating = 1.0

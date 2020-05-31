@@ -25,7 +25,7 @@ data class Currency(
 ) : Parcelable {
 
     @Ignore
-    val outValue = MutableLiveData<BigDecimal>()
+    var outValue = BigDecimal(1.0)
 
     /**
      * Currency can be converted into parcel and send between activities
