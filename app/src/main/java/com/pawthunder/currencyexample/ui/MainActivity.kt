@@ -102,7 +102,11 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
     override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
         if (actionId == EditorInfo.IME_ACTION_DONE) {
-            ratesViewModel.convertValue.value = (textView?.text?.toString() ?: "1.0").toDouble()
+            var value = (textView?.text?.toString() ?: "1.0")
+            if (value.isEmpty()) {
+                value = "0"
+            }
+            ratesViewModel.convertValue.value = value.toDouble()
         }
         return false
     }
