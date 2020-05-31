@@ -2,26 +2,30 @@ package com.pawthunder.currencyexample.db
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
+import java.math.BigDecimal
 
 /**
  * Object containing essential data about currency.
  * @constructor Constructor of currency object saved in database.
- * @property id Unique identifier for every currency.
- * @property name Name of currency.
  * @property shortName Short name of currency.
+ * @property name Name of currency.
  * @property rating Current rate of currency to base currency.
+ * @property value current value
  */
 @Entity
 data class Currency(
-    @PrimaryKey(autoGenerate = true) var id: Long,
+    @PrimaryKey var shortName: CurrencyShortName,
     var name: String,
-    var shortName: CurrencyShortName,
-    var rating: Double = 1.0,
-    var value: Double = 1.0
+    var rating: Double = 1.0
 ) : Parcelable {
+
+    @Ignore
+    var outValue = BigDecimal(1.0)
 
     /**
      * Currency can be converted into parcel and send between activities
@@ -30,20 +34,16 @@ data class Currency(
      * @see Parcelable
      */
     constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString() ?: "",
         parcel.readSerializable() as CurrencyShortName,
-        parcel.readDouble(),
+        parcel.readString() ?: "",
         parcel.readDouble()
     )
 
     override fun writeToParcel(dest: Parcel?, flags: Int) {
         dest?.apply {
-            writeLong(id)
-            writeString(name)
             writeSerializable(shortName)
+            writeString(name)
             writeDouble(rating)
-            writeDouble(value)
         }
     }
 

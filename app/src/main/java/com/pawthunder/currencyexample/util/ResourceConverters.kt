@@ -48,11 +48,13 @@ object ResourceConverters {
             CurrencyShortName.THB -> R.drawable.thailand_flag_round
             CurrencyShortName.USD -> R.drawable.usa_flag_round
             CurrencyShortName.ZAR -> R.drawable.south_africa_flag_round
-            else -> {
+            CurrencyShortName.UNKNOWN -> {
                 // Ideally this send event to firebase about missing flag
-                Timber.e(IllegalArgumentException("Missing flag for currency ${currency?.key}"))
+                Timber.e(IllegalArgumentException("Missing flag for currency"))
                 R.drawable.ic_no_flag
             }
+            else -> R.drawable.ic_no_flag
+
         }
     }
 
@@ -96,11 +98,13 @@ object ResourceConverters {
             CurrencyShortName.THB -> R.string.thai_baht
             CurrencyShortName.USD -> R.string.us_dollar
             CurrencyShortName.ZAR -> R.string.south_african_rand
-            else -> {
+            CurrencyShortName.UNKNOWN -> {
                 // Ideally this send event to firebase about missing name
-                Timber.e(IllegalArgumentException("Missing name for currency ${currency?.key}"))
+                Timber.e(IllegalArgumentException("Missing name for currency."))
                 -1
             }
+            else -> -1
+
         }
     }
 }

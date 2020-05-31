@@ -1,6 +1,5 @@
 package com.pawthunder.currencyexample.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
 
@@ -11,5 +10,5 @@ import androidx.room.Query
 interface CurrencyDao : DatabaseOperationDao<Currency> {
 
     @Query("SELECT * FROM Currency")
-    fun getItems(): LiveData<List<Currency>>
+    fun getItems(): List<Currency>
 }
