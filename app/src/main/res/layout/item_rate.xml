@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="end"
-            android:hint="@string/rate"
+            android:hint="@string/zero_zero"
             android:imeOptions="actionDone"
             android:inputType="numberDecimal"
             android:minEms="3"

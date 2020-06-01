@@ -33,8 +33,15 @@ class RatesViewModel @Inject constructor(
 
     // TODO: reload items during text editing by user maybe listen to keyboard key press
     fun reloadRates() {
-        if (rates.value != null)
-            rates.postValue(rates.value)
+        val items = rates.value
+        if (items != null) {
+            val newItems = ArrayList<Currency>()
+            for (item in items) {
+                newItems.add(Currency(item.shortName, item.name, item.rating))
+            }
+            Timber.i("timber message -> reload data")
+            rates.value = newItems
+        }
     }
 
     fun changeFirstItem(item: Currency) {

@@ -37,4 +37,5 @@
     <string name="thai_baht">Thai baht</string>
     <string name="us_dollar">US dollar</string>
     <string name="south_african_rand">South African rand</string>
+    <string name="zero_zero">0.0</string>
 </resources>

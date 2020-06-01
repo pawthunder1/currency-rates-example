@@ -1,10 +1,9 @@
 package com.pawthunder.currencyexample.ui.rates
 
 import android.widget.EditText
-import android.widget.TextView
 import com.pawthunder.currencyexample.db.Currency
 
-interface RateClickListener : TextView.OnEditorActionListener {
+interface RateClickListener {
 
     /**
      * EditText is focused change currency.
