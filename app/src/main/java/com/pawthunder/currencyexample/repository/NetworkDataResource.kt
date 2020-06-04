@@ -15,8 +15,7 @@ import retrofit2.Response
  */
 abstract class NetworkDataResource<RequestType, ResultType>(
     private val appExecutors: AppExecutors,
-    private val result: MutableLiveData<ResultType>,
-    private val shouldPostValue: MutableLiveData<Boolean>? = null
+    private val result: MutableLiveData<ResultType>
 ) {
 
     /**

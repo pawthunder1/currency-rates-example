@@ -32,7 +32,7 @@ class RatesRepository @Inject constructor(
         context: Context
     ) {
         object :
-            NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result, shouldPost) {
+            NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result) {
             override fun shouldRequest() = true
 
             override fun loadFromDatabase() = currencyDao.getItems()
