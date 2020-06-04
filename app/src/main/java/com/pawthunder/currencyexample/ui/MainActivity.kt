@@ -110,6 +110,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
             return false
         }
 
+        ratesViewModel.shouldRequest.value = false
+
         val newValue = focusedEditText?.text?.toString()
         if(!newValue.isNullOrEmpty()) {
             ratesViewModel.convertValue.value = newValue.toDouble()
