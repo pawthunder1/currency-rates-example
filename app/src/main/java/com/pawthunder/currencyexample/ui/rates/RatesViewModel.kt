@@ -47,6 +47,7 @@ class RatesViewModel @Inject constructor(
     fun changeFirstItem(item: Currency) {
         val list = rates.value
         if (list?.size ?: 0 > 0 && list?.get(0) != item) {
+            convertValue.value = 1.0
             shouldRequest.value = false
             defaultCurrency.value = item.shortName
             val items = recalculateItems(list, item)

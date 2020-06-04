@@ -76,7 +76,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         })
 
         ratesViewModel.convertValue.observe(this, Observer {
-            ratesViewModel.reloadRates()
+            if (ratesViewModel.shouldRequest.value == false) {
+                ratesViewModel.reloadRates()
+            }
         })
     }
 
