@@ -2,9 +2,7 @@ package com.pawthunder.currencyexample.ui
 
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -39,6 +37,8 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         viewModelFactory
     }
 
+    private var focusedEditText: EditText? = null
+
     private val scrollStateListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             super.onScrollStateChanged(recyclerView, newState)
@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
         ratesViewModel.rates.observe(this, Observer { items ->
             val adapter = rates_items.adapter
-
             for (item in items) {
-                val newValue = (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
+                val newValue =
+                    (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
                 item.outValue = newValue
             }
 
@@ -73,7 +73,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         })
 
         ratesViewModel.convertValue.observe(this, Observer {
-            ratesViewModel.reloadRates()
+            if (ratesViewModel.shouldRequest.value == false) {
+                ratesViewModel.reloadRates()
+            }
         })
     }
 
@@ -93,6 +95,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
     }
 
     override fun onInputFocused(view: EditText, item: Currency) {
+        focusedEditText = view
         ratesViewModel.changeFirstItem(item)
     }
 
@@ -100,15 +103,20 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         ratesViewModel.shouldRequest.value = true
     }
 
-    override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            var value = (textView?.text?.toString() ?: "1.0")
-            if (value.isEmpty()) {
-                value = "0"
-            }
-            ratesViewModel.convertValue.value = value.toDouble()
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (focusedEditText?.hasFocus() != true) {
+            focusedEditText = null
+            return false
         }
-        return false
+
+        ratesViewModel.shouldRequest.value = false
+
+        val newValue = focusedEditText?.text?.toString()
+        if (!newValue.isNullOrEmpty()) {
+            ratesViewModel.convertValue.value = newValue.toDouble()
+        }
+
+        return super.onKeyUp(keyCode, event)
     }
 
     override fun androidInjector(): AndroidInjector<Any> = dispatchingAndroidInjector

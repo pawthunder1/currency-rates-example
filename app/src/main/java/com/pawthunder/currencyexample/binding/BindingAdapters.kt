@@ -7,7 +7,7 @@ import androidx.databinding.BindingAdapter
 import com.pawthunder.currencyexample.ui.rates.CurrencyShortName
 import com.pawthunder.currencyexample.util.ResourceConverters
 import java.math.BigDecimal
-import java.util.*
+import java.text.DecimalFormat
 
 object BindingAdapters {
 
@@ -26,6 +26,7 @@ object BindingAdapters {
     @JvmStatic
     @BindingAdapter("showNumber")
     fun showRoundedDouble(textView: TextView, value: BigDecimal?) {
-        textView.text = String.format(Locale.US, "%.2f", value)
+        val decimalFormat = DecimalFormat("#.##")
+        textView.text = decimalFormat.format(value)
     }
 }

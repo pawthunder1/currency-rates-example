@@ -31,15 +31,21 @@ class RatesViewModel @Inject constructor(
         }, 1000)
     }
 
-    // TODO: reload items during text editing by user maybe listen to keyboard key press
     fun reloadRates() {
-        if (rates.value != null)
-            rates.postValue(rates.value)
+        val items = rates.value
+        if (items != null) {
+            val newItems = ArrayList<Currency>()
+            for (item in items) {
+                newItems.add(Currency(item.shortName, item.name, item.rating))
+            }
+            rates.value = newItems
+        }
     }
 
     fun changeFirstItem(item: Currency) {
         val list = rates.value
         if (list?.size ?: 0 > 0 && list?.get(0) != item) {
+            convertValue.value = 1.0
             shouldRequest.value = false
             defaultCurrency.value = item.shortName
             val items = recalculateItems(list, item)

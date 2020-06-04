@@ -2,7 +2,6 @@ package com.pawthunder.currencyexample.db
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import com.pawthunder.currencyexample.R
 import com.pawthunder.currencyexample.databinding.ItemRateBinding
@@ -26,7 +25,7 @@ class RatesAdapter(
             oldItem.shortName == newItem.shortName
 
         override fun areContentsTheSame(oldItem: Currency, newItem: Currency) =
-            oldItem == newItem
+            oldItem == newItem && oldItem.outValue == newItem.outValue
     }
 ), View.OnFocusChangeListener {
 
@@ -38,7 +37,6 @@ class RatesAdapter(
             false
         ).apply {
             rateValue.onFocusChangeListener = this@RatesAdapter
-            rateValue.setOnEditorActionListener(rateClickListener)
         }
 
     override fun bind(binding: ItemRateBinding, item: Currency, position: Int) {
@@ -60,7 +58,7 @@ class RatesAdapter(
         val currency = view?.tag
         if (hasFocus && currency is Currency && view is EditText) {
             rateClickListener.onInputFocused(view, currency)
-            view.setSelection(0)
+            view.setSelection(view.text.length)
         }
     }
 }
