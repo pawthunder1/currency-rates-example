@@ -2,9 +2,7 @@ package com.pawthunder.currencyexample.ui
 
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -22,7 +20,6 @@ import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
-import timber.log.Timber
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener {
@@ -58,9 +55,9 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
 
         ratesViewModel.rates.observe(this, Observer { items ->
             val adapter = rates_items.adapter
-            Timber.i("timber message -> new values were supplied")
             for (item in items) {
-                val newValue = (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
+                val newValue =
+                    (item.rating * (ratesViewModel.convertValue.value ?: 1.0)).toBigDecimal()
                 item.outValue = newValue
             }
 
@@ -115,7 +112,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         ratesViewModel.shouldRequest.value = false
 
         val newValue = focusedEditText?.text?.toString()
-        if(!newValue.isNullOrEmpty()) {
+        if (!newValue.isNullOrEmpty()) {
             ratesViewModel.convertValue.value = newValue.toDouble()
         }
 
