@@ -60,7 +60,32 @@ class RatesRepository @Inject constructor(
             }
 
             override fun onFailedRequest(throwable: Throwable) {
-                // TODO("Not yet implemented")
+                // do nothing
+            }
+
+            override fun postValue(value: List<Currency>) {
+                val newValues = value.toMutableList()
+                val output = ArrayList<Currency>()
+
+                for (originalRate in result.value ?: ArrayList()) {
+                    var removeValue: Currency? = null
+                    for (newRate in newValues) {
+                        if (newRate.shortName == originalRate.shortName) {
+                            output.add(newRate)
+                            removeValue = newRate
+                            break
+                        }
+                    }
+
+                    removeValue?.let {
+                        newValues.remove(it)
+                    }
+                }
+
+                output.addAll(newValues)
+
+                if (shouldPost.value != false)
+                    result.postValue(output)
             }
         }.loadData()
     }

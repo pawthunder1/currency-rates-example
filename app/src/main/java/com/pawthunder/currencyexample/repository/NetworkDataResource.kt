@@ -68,10 +68,7 @@ abstract class NetworkDataResource<RequestType, ResultType>(
         }
     }
 
-    private fun postValue(value: ResultType) {
-        if (shouldPostValue?.value != false)
-            result.postValue(value)
-    }
+    abstract fun postValue(value: ResultType)
 
     abstract fun shouldRequest(): Boolean
 
