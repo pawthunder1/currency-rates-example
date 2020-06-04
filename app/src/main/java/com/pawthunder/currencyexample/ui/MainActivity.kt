@@ -54,6 +54,10 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         initializeRecycler()
 
         ratesViewModel.rates.observe(this, Observer { items ->
+            if (ratesViewModel.defaultCurrency.value == null && items.isNotEmpty()) {
+                ratesViewModel.defaultCurrency.value = items[0].shortName
+            }
+
             val adapter = rates_items.adapter
             for (item in items) {
                 val newValue =

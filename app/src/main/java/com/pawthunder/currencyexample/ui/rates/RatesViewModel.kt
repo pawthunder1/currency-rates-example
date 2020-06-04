@@ -16,13 +16,11 @@ class RatesViewModel @Inject constructor(
 
     val rates = MutableLiveData<List<Currency>>()
     val shouldRequest = MutableLiveData<Boolean>()
-    val defaultCurrency = MutableLiveData(CurrencyShortName.EUR)
+    val defaultCurrency = MutableLiveData<CurrencyShortName>()
     val convertValue = MutableLiveData(1.0)
 
     fun requestRates() {
-        defaultCurrency.value?.let {
-            ratesRepository.loadRates(it, rates, shouldRequest, app)
-        }
+        ratesRepository.loadRates(defaultCurrency.value ?: CurrencyShortName.EUR, rates, shouldRequest, app)
 
         Handler().postDelayed({
             if (shouldRequest.value == true) {
