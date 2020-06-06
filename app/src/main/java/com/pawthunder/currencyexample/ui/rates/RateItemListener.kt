@@ -11,7 +11,7 @@ interface RateItemListener {
 
     /**
      * EditText is focused change currency.
-     * @param view Editext with focus.
+     * @param view EditText with focus.
      * @param item Selected currency.
      */
     fun onInputFocused(view: EditText, item: Currency)
