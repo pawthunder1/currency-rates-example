@@ -10,12 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.snackbar.Snackbar
 import com.pawthunder.currencyexample.R
 import com.pawthunder.currencyexample.db.Currency
 import com.pawthunder.currencyexample.ui.rates.RateClickListener
 import com.pawthunder.currencyexample.ui.rates.RatesAdapter
 import com.pawthunder.currencyexample.ui.rates.RatesViewModel
 import com.pawthunder.currencyexample.util.AppExecutors
+import com.pawthunder.currencyexample.util.NetworkConnectionProvider
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
@@ -33,11 +35,15 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    @Inject
+    lateinit var networkConnection: NetworkConnectionProvider
+
     private val ratesViewModel: RatesViewModel by viewModels {
         viewModelFactory
     }
 
     private var focusedEditText: EditText? = null
+    private var snackbar: Snackbar? = null
 
     private val scrollStateListener = object : RecyclerView.OnScrollListener() {
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -52,6 +58,7 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         setSupportActionBar(toolbar as MaterialToolbar)
 
         initializeRecycler()
+        checkNetworkConnection()
 
         ratesViewModel.rates.observe(this, Observer { items ->
             if (ratesViewModel.defaultCurrency.value == null && items.isNotEmpty()) {
@@ -129,5 +136,26 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
         rates_items.layoutManager = LinearLayoutManager(this)
         rates_items.adapter = RatesAdapter(this, appExecutors)
         rates_items.addOnScrollListener(scrollStateListener)
+    }
+
+    private fun checkNetworkConnection() {
+        showNoInternetMessage(networkConnection.isConnected.value)
+
+        networkConnection.isConnected.observe(this, Observer {connected ->
+            showNoInternetMessage(connected)
+        })
+    }
+
+    private fun showNoInternetMessage(isConnected: Boolean?) {
+        if(isConnected == false) {
+            snackbar = Snackbar.make(
+                root_layout,
+                R.string.you_have_no_internet_connection,
+                Snackbar.LENGTH_INDEFINITE
+            )
+            snackbar?.show()
+        } else {
+            snackbar?.dismiss()
+        }
     }
 }

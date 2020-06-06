@@ -6,6 +6,7 @@ import com.pawthunder.currencyexample.RevolutApp
 import com.pawthunder.currencyexample.api.RevolutService
 import com.pawthunder.currencyexample.db.CurrencyDao
 import com.pawthunder.currencyexample.db.RevolutDatabase
+import com.pawthunder.currencyexample.util.NetworkConnectionProvider
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -35,5 +36,10 @@ class AppModule {
     @Provides
     fun provideCurrencyDao(database: RevolutDatabase): CurrencyDao =
         database.getCurrencyDao()
+
+    @Singleton
+    @Provides
+    fun provideNetworkProvider(app: Application) =
+        NetworkConnectionProvider(app)
 
 }
