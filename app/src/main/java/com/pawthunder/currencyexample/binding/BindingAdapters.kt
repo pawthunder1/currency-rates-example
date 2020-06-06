@@ -9,6 +9,9 @@ import com.pawthunder.currencyexample.util.ResourceConverters
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
+/**
+ * Binding adapters for usage in xml code to set up element.
+ */
 object BindingAdapters {
 
     @JvmStatic

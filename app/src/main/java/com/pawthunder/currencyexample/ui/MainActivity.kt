@@ -13,7 +13,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.snackbar.Snackbar
 import com.pawthunder.currencyexample.R
 import com.pawthunder.currencyexample.db.Currency
-import com.pawthunder.currencyexample.ui.rates.RateClickListener
+import com.pawthunder.currencyexample.ui.rates.RateItemListener
 import com.pawthunder.currencyexample.ui.rates.RatesAdapter
 import com.pawthunder.currencyexample.ui.rates.RatesViewModel
 import com.pawthunder.currencyexample.util.AppExecutors
@@ -24,7 +24,7 @@ import dagger.android.HasAndroidInjector
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener {
+class MainActivity : AppCompatActivity(), HasAndroidInjector, RateItemListener {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
@@ -141,13 +141,13 @@ class MainActivity : AppCompatActivity(), HasAndroidInjector, RateClickListener 
     private fun checkNetworkConnection() {
         showNoInternetMessage(networkConnection.isConnected.value)
 
-        networkConnection.isConnected.observe(this, Observer {connected ->
+        networkConnection.isConnected.observe(this, Observer { connected ->
             showNoInternetMessage(connected)
         })
     }
 
     private fun showNoInternetMessage(isConnected: Boolean?) {
-        if(isConnected == false) {
+        if (isConnected == false) {
             snackbar = Snackbar.make(
                 root_layout,
                 R.string.you_have_no_internet_connection,

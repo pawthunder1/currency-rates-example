@@ -1,5 +1,9 @@
 package com.pawthunder.currencyexample.ui.rates
 
+/**
+ * Enum containing all recognized currencies in application.
+ * @property key Short unique name of currency.
+ */
 enum class CurrencyShortName(val key: String) {
     AUD("AUD"),
     BGN("BGN"),

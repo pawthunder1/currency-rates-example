@@ -9,15 +9,23 @@ import android.os.Build
 import androidx.lifecycle.MutableLiveData
 import javax.inject.Inject
 
-class NetworkConnectionProvider @Inject constructor(private val context: Context) {
+/**
+ * [NetworkConnectionProvider] provides if current network is on or off. If it's off all online
+ * logic should be disabled.
+ * @param context Context to get [ConnectivityManager].
+ */
+class NetworkConnectionProvider @Inject constructor(context: Context) {
 
+    /**
+     * [MutableLiveData] containing boolean value about current network state.
+     */
     val isConnected = MutableLiveData<Boolean>()
 
     init {
         (context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?)?.let {
-           checkCurrentConnection(it)
-           addCallBacks(it)
-       }
+            checkCurrentConnection(it)
+            addCallBacks(it)
+        }
     }
 
     private fun checkCurrentConnection(manager: ConnectivityManager) {
@@ -25,7 +33,8 @@ class NetworkConnectionProvider @Inject constructor(private val context: Context
             isConnected.value = manager.activeNetworkInfo?.isConnected == true
         } else {
             val capabilities = manager.getNetworkCapabilities(manager.activeNetwork)
-            isConnected.value = capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+            isConnected.value =
+                capabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
         }
     }
 
@@ -43,7 +52,8 @@ class NetworkConnectionProvider @Inject constructor(private val context: Context
         }
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            val builder = NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            val builder =
+                NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             manager.registerNetworkCallback(builder.build(), connectivityCallback)
         } else {
             manager.registerDefaultNetworkCallback(connectivityCallback)

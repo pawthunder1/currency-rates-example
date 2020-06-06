@@ -15,8 +15,12 @@ import com.pawthunder.currencyexample.ui.common.DataBoundHolder
 import com.pawthunder.currencyexample.ui.common.DataBoundListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
 
+/**
+ * Adapter for showing rates.
+ * @property rateItemListener Listener for sending events outside of adapter.
+ */
 class RatesAdapter(
-    private val rateClickListener: RateClickListener,
+    private val rateItemListener: RateItemListener,
     appExecutors: AppExecutors
 ) : DataBoundListAdapter<Currency, ItemRateBinding>(
     appExecutors,
@@ -47,17 +51,19 @@ class RatesAdapter(
         super.onViewDetachedFromWindow(holder)
         val view = holder.binding.rateValue
         if (view.hasFocus()) {
+            // The input had focus but is no longer in window so keyboard should be hidden if wasn't
             val inputManager =
                 (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
             inputManager.hideSoftInputFromWindow(view.windowToken, 0)
-            rateClickListener.continueRequests()
+            rateItemListener.continueRequests()
         }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
         val currency = view?.tag
         if (hasFocus && currency is Currency && view is EditText) {
-            rateClickListener.onInputFocused(view, currency)
+            // Rate input was focused and should be on top
+            rateItemListener.onInputFocused(view, currency)
             view.setSelection(view.text.length)
         }
     }

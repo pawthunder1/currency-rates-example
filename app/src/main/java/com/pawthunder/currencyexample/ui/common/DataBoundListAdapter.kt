@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.pawthunder.currencyexample.util.AppExecutors
 
+/**
+ * Parent class for RecyclerView.Adapter's.
+ */
 abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
     appExecutors: AppExecutors,
     diffCallback: DiffUtil.ItemCallback<T>
@@ -25,7 +28,18 @@ abstract class DataBoundListAdapter<T, V : ViewDataBinding>(
         holder.binding.executePendingBindings()
     }
 
+    /**
+     * Layout with ViewDataBinding is created and assigned to RecyclerView.
+     * @param parent Parent View holding RecyclerView.
+     * @return [ViewDataBinding] object associated with layout.
+     */
     protected abstract fun createBinding(parent: ViewGroup): V
 
+    /**
+     * New item was bound to layout. Layout should be reinitialized to reflect data of item.
+     * @param binding [ViewDataBinding] object which should be reinitialized with new item
+     * @param item New item bound to layout.
+     * @param position Position of item in adapter's list of items.
+     */
     protected abstract fun bind(binding: V, item: T, position: Int)
 }
