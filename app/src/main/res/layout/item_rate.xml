@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.pawthunder.currencyexample.util.ResourceConverters" />
+
+        <variable
+            name="item"
+            type="com.pawthunder.currencyexample.db.Currency" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/grid_space_normal">
+
+        <ImageView
+            android:id="@+id/rate_image"
+            android:layout_width="@dimen/icon_large"
+            android:layout_height="@dimen/icon_large"
+            android:contentDescription="@string/flag_icon"
+            app:flagCurrency="@{item.shortName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rate_short_name"
+            style="@style/TextPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_space_normal"
+            android:text="@{item.shortName.key}"
+            app:layout_constraintBottom_toTopOf="@+id/rate_name"
+            app:layout_constraintStart_toEndOf="@+id/rate_image"
+            app:layout_constraintTop_toTopOf="@+id/rate_image"
+            tools:text="USD" />
+
+        <TextView
+            android:id="@+id/rate_name"
+            style="@style/TextSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{item.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/rate_image"
+            app:layout_constraintStart_toStartOf="@+id/rate_short_name"
+            app:layout_constraintTop_toBottomOf="@+id/rate_short_name"
+            app:layout_constraintVertical_chainStyle="spread"
+            tools:text="US Dollar" />
+
+        <EditText
+            android:id="@+id/rate_value"
+            style="@style/TitlePrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="end"
+            android:hint="@string/zero_zero"
+            android:imeOptions="actionDone"
+            android:inputType="numberDecimal"
+            android:minEms="3"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:tag="@{item}"
+            app:layout_constraintBottom_toBottomOf="@+id/rate_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rate_image"
+            app:showNumber="@{item.outValue}"
+            tools:text="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
