@@ -12,6 +12,12 @@ import com.pawthunder.currencyexample.util.ResourceConverters
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Repository class communicating with RatesViewModel and handling data to it from network or database.
+ * @property appExecutors Executors for executing database and network actions on different threads.
+ * @property currencyDao Dao for accessing queries upon currency table.
+ * @property revolutService Network service for requesting rates.
+ */
 class RatesRepository @Inject constructor(
     private val appExecutors: AppExecutors,
     private val currencyDao: CurrencyDao,
@@ -32,7 +38,7 @@ class RatesRepository @Inject constructor(
         context: Context
     ) {
         object :
-            NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result, shouldPost) {
+            NetworkDataResource<RatesResponse, List<Currency>>(appExecutors, result) {
             override fun shouldRequest() = true
 
             override fun loadFromDatabase() = currencyDao.getItems()
@@ -60,7 +66,33 @@ class RatesRepository @Inject constructor(
             }
 
             override fun onFailedRequest(throwable: Throwable) {
-                // TODO("Not yet implemented")
+                // do nothing
+            }
+
+            override fun postValue(value: List<Currency>) {
+                val newValues = value.toMutableList()
+                val output = ArrayList<Currency>()
+
+                // The part secures that all current items keep their positions and don't jump
+                for (originalRate in result.value ?: ArrayList()) {
+                    var removeValue: Currency? = null
+                    for (newRate in newValues) {
+                        if (newRate.shortName == originalRate.shortName) {
+                            output.add(newRate)
+                            removeValue = newRate
+                            break
+                        }
+                    }
+
+                    removeValue?.let {
+                        newValues.remove(it)
+                    }
+                }
+
+                output.addAll(newValues)
+
+                if (shouldPost.value != false)
+                    result.postValue(output)
             }
         }.loadData()
     }

@@ -14,7 +14,6 @@ import java.math.BigDecimal
  * @property shortName Short name of currency.
  * @property name Name of currency.
  * @property rating Current rate of currency to base currency.
- * @property value current value
  */
 @Entity
 data class Currency(
@@ -23,6 +22,9 @@ data class Currency(
     var rating: Double = 1.0
 ) : Parcelable {
 
+    /**
+     * Output value shown in UI
+     */
     @Ignore
     var outValue = BigDecimal(1.0)
 

@@ -8,15 +8,13 @@ import retrofit2.Response
 
 /**
  * Resource for loading data from database or network.
- * @constructor For creating NetworkDataResource with all essential properties
+ * @constructor For creating NetworkDataResource with all essential properties.
  * @property appExecutors executors for network and disk tasks running on different thread.
  * @property result LiveData for posting result.
- * @property shouldPostValue Livedata indicating if value should be posted.
  */
 abstract class NetworkDataResource<RequestType, ResultType>(
     private val appExecutors: AppExecutors,
-    private val result: MutableLiveData<ResultType>,
-    private val shouldPostValue: MutableLiveData<Boolean>? = null
+    private val result: MutableLiveData<ResultType>
 ) {
 
     /**
@@ -68,18 +66,41 @@ abstract class NetworkDataResource<RequestType, ResultType>(
         }
     }
 
-    private fun postValue(value: ResultType) {
-        if (shouldPostValue?.value != false)
-            result.postValue(value)
-    }
+    /**
+     * Perform additional changes to output value and post it to result.
+     * @param value Final value send as output.
+     */
+    abstract fun postValue(value: ResultType)
 
+    /**
+     * Method returns if output value should be requested from network or not
+     * @return Boolean value if true data should be requested from network.
+     */
     abstract fun shouldRequest(): Boolean
 
+    /**
+     * Method create query and request data from local database
+     * @return Return loaded data from database.
+     */
     abstract fun loadFromDatabase(): ResultType
 
+    /**
+     * Method creating call which will be requested from network through retrofit
+     * @return Call for requesting data from network.
+     */
     abstract fun requestFromNetwork(): Call<RequestType>
 
+    /**
+     * Network response was successful and can be saved into local database.
+     * @param response Success response from network containing data.
+     * @return Data saved into local database.
+     */
     abstract fun saveCallResult(response: RequestType): ResultType
 
+    /**
+     * Network request failed with [Throwable]. User should be notified and error should be
+     * resolved.
+     * @param throwable containing message about network error.
+     */
     abstract fun onFailedRequest(throwable: Throwable)
 }
